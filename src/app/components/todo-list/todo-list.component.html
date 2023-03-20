@@ -1,0 +1,25 @@
+<div>
+  <div class="flex justify-center mb-[24px]">
+    <div class="flex items-center">
+      <input class="py-[8px] px-[16px] rounded-l-[6px] border border-gray-400 box-border h-[40px] min-w-[500px]"
+        [(ngModel)]="newToDoName" placeholder="请输入内容" (change)="handleAddTodo()" />
+      <div class="bg-blue-600 text-[#fff] py-[8px] px-[16px] rounded-r-[6px] cursor-pointer hover:opacity-80"
+        (click)="handleAddTodo()">
+        添加
+      </div>
+    </div>
+  </div>
+
+  <select class="mb-[24px] border text-[14px] px-[8px] py-[4px] min-w-[160px]" (change)="handleSelectChange($event)">
+    <option value="">全部</option>
+    <option value="0">进行中</option>
+    <option value="1">已完成</option>
+    <option value="-1">未完成</option>
+  </select>
+
+  <div class="mb-[8px]" *ngFor="let todo of renderTodoList;let key = index">
+    <app-todo-list-item [name]="todo.name" [id]="todo.id" [seq]="key" [status]="todo.status"
+      (onDeleteItem)="handleDeleteTodo($event)" (onChangeItem)="handleChangeTodo($event)">
+    </app-todo-list-item>
+  </div>
+</div>

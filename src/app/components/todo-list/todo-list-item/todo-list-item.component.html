@@ -1,0 +1,17 @@
+<div class="flex items-center rounded-[6px] border">
+  <div class="bg-cyan-900 text-[#fff] rounded-l-[6px] py-[8px] px-[16px] w-[40px]">{{
+    status === 1 ? "√" : seq
+    }}</div>
+
+  <div [ngSwitch]="status" class="w-full relative">
+    <del *ngSwitchCase="1">
+      <div class="bg-gray-100 p-[8px]  ">{{name}}</div>
+    </del>
+    <div *ngSwitchCase="0" class="bg-gray-100 p-[8px]" (dblclick)="handleOpenEdit($event)">{{name}}</div>
+    <div *ngSwitchDefault class="bg-gray-100 p-[8px]">{{name}}</div>
+    <input [ngClass]="[isEdit ? '' : 'hidden']" class="absolute top-0 left-0 w-full h-[40px] p-[8px]" type="text"
+      #editRef [(ngModel)]="newEditName" (change)="handleEditTask()">
+  </div>
+
+  <div class="bg-red-500 text-[#fff] py-[8px] px-[16px] rounded-r-[6px] cursor-pointer" (click)="onDelete()">X</div>
+</div>

@@ -1,0 +1,126 @@
+<div #mainRef class="main-wrapper">
+  <div #headerRef class="header-wrapper">
+    <table>
+      <colgroup>
+        <col
+          *ngFor="let column of bodyColumns"
+          [width]="calcCellWidth(column)"
+        />
+        <col *ngIf="config.scrollable" width="17"/>
+      </colgroup>
+
+      <thead>
+      <tr *ngFor="let rowCol of headerColumns">
+        <th
+          *ngFor="let column of rowCol"
+          [attr.colspan]="column.colspan || 1"
+          [attr.rowspan]="column.rowspan || 1"
+          [ngStyle]="column.tdStyle ? column.tdStyle(column) : {}"
+        >
+          <div class="header-cell">
+                            <span>
+                                {{column.header}}
+                            </span>
+            <div *ngIf="column.sortable" class="sort-arrow">
+                                <span
+                                  (click)="handleSort(column.field, 'asc')"
+                                  [class.active]="orderKey === column.field && orderDirection === 'asc'"
+                                  class="material-icons-round arrow-up"
+                                >
+                                    keyboard_arrow_up
+                                </span>
+              <span
+                (click)="handleSort(column.field, 'desc')"
+                [class.active]="orderKey === column.field && orderDirection === 'desc'"
+                class="material-icons-round arrow-down"
+              >
+                                        keyboard_arrow_down
+                                </span>
+            </div>
+          </div>
+        </th>
+      </tr>
+      </thead>
+    </table>
+  </div>
+
+  <div #bodyRef class="body-wrapper">
+    <table>
+      <colgroup>
+        <col
+          *ngFor="let column of bodyColumns"
+          [width]="calcCellWidth(column)"
+        />
+      </colgroup>
+
+      <tbody>
+      <ng-container *ngFor="let row of _data;">
+        <tr>
+          <ng-container *ngFor="let column of bodyColumns; let columnIndex = index;">
+            <td
+              (click)="onCellClick({
+                              row: row,
+                              column: column,
+                              rowIndex: row.rowId,
+                              columnIndex: columnIndex
+                            })"
+              *ngIf="shouldRenderCell(row.rowId, columnIndex)"
+              [attr.colspan]="calcColSpan(row.rowId, columnIndex)"
+              [attr.rowspan]="calcRowSpan(row.rowId, columnIndex)"
+              [ngClass]="[
+                              column.onClick ? 'cursor-pointer': '',
+                              column.cellClass ? column.cellClass({row: row, col: column.field, rowIndex: row.rowId, columnIndex: columnIndex}) : ''
+                            ]"
+              [ngStyle]="column.tdStyle ? column.tdStyle(column) : {}"
+            >
+              <div
+                *ngIf="!column.slots; else slotsBlock"
+                [ngStyle]="column.cellStyle ? column.cellStyle({row: row, col: column.field, rowIndex: row.rowId, columnIndex: columnIndex}) : {}"
+                class="cell"
+              >
+                {{ column.formatValue ? (column.formatValue({
+                row: row,
+                col: column.field,
+                rowIndex: row.rowId,
+                columnIndex: columnIndex
+              })) : row[column.field]}}
+              </div>
+
+              <ng-template #slotsBlock>
+                <div *ngIf="cellSlots" class="cell">
+                  <ng-container
+                    [ngTemplateOutletContext]="{
+                                            row: row,
+                                            column: column.field,
+                                            rowIndex: row.rowId,
+                                            columnIndex: columnIndex
+                                        }"
+                    [ngTemplateOutlet]="cellSlots.templateRef"
+                  ></ng-container>
+                </div>
+              </ng-template>
+            </td>
+          </ng-container>
+        </tr>
+
+        <tr *ngIf="shouldRenderExpandRow(row.rowId)">
+          <td *ngIf="expandSlots" [attr.colspan]="columns.length">
+            <ng-container
+              [ngTemplateOutletContext]="{
+                              row: row,
+                              rowIndex: row.rowId
+                            }"
+              [ngTemplateOutlet]="expandSlots.templateRef"
+            ></ng-container>
+          </td>
+        </tr>
+      </ng-container>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="_data && _data.length === 0" class="empty-wrapper">
+    暂无数据
+  </div>
+</div>
+

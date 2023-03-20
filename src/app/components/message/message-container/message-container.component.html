@@ -1,0 +1,7 @@
+<div class="ant-message">
+  <u-message
+    *ngFor="let instance of instances"
+    [instance]="instance"
+    (destroyed)="remove($event.id, $event.userAction)"
+  ></u-message>
+</div>

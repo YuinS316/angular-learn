@@ -1,0 +1,127 @@
+* {
+  box-sizing: border-box;
+}
+
+th,
+td {
+  background-image: linear-gradient(#e8eaec, #e8eaec), linear-gradient(#e8eaec, #e8eaec);
+  background-repeat: no-repeat;
+  background-size: 1px 100%, 100% 1px;
+  background-position: 100% 0, 100% 100%;
+}
+
+th {
+  background-image: linear-gradient(#e8eaec, #e8eaec), linear-gradient(#e8eaec, #e8eaec);
+  background-repeat: no-repeat;
+  background-size: 1px 100%, 100% 1px;
+  background-position: 100% 0, 100% 100%;
+  background-color: #fff;
+}
+
+th .header-cell {
+  padding: 8px;
+  word-break: break-all;
+  font-size: 12px;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+th .header-cell .sort-arrow {
+  display: flex;
+  flex-direction: column;
+}
+
+th .header-cell .sort-arrow .arrow-up {
+  transform: translateY(3px);
+  color: #c0c4cc;
+  cursor: pointer;
+}
+
+th .header-cell .sort-arrow .arrow-up.active {
+  color: #23a2ff;
+}
+
+th .header-cell .sort-arrow .arrow-down {
+  transform: translateY(-3px);
+  color: #c0c4cc;
+  cursor: pointer;
+}
+
+th .header-cell .sort-arrow .arrow-down.active {
+  color: #23a2ff;
+}
+
+.main-wrapper {
+  border: 1px solid #e8eaec;
+}
+
+.header-wrapper {
+  position: relative;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  background: #f8f8f9;
+}
+
+.header-wrapper table {
+  width: 417px;
+  border: 0;
+  border-spacing: 0;
+  border-collapse: separate;
+  table-layout: fixed;
+  position: relative;
+}
+
+.body-wrapper {
+  overflow-x: auto;
+  overflow-y: auto;
+}
+
+.body-wrapper .cell {
+  padding: 8px;
+  word-break: break-all;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.88);
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, PingFang SC,Hiragino Sans GB, Microsoft YaHei, Helvetica Neue, Helvetica, Arial,sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
+  direction: ltr;
+  text-align: center;
+}
+
+.body-wrapper table {
+  width: 410px;
+  border: 0;
+  border-spacing: 0;
+  border-collapse: separate;
+  table-layout: fixed;
+  position: relative;
+}
+
+.body-wrapper table tr:nth-child(2n) td {
+  background-color: #fff;
+/*border: 1px solid #cacaca;*/
+}
+
+.body-wrapper table tr:nth-child(2n-1) td {
+  background-color: #fafafa;
+/*border: 1px solid #cacaca;*/
+}
+
+.empty-wrapper {
+  padding: 16px;
+  text-align: center;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.red-cell {
+  background-color: #E2EFDA;
+}
+
+.green-cell {
+  background-color: #FCE4D6;
+}

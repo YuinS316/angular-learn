@@ -1,0 +1,67 @@
+<table>
+  <colgroup>
+    <col
+      *ngFor="let column of columns"
+      [width]="calcCellWidth(column)"
+    />
+  </colgroup>
+
+  <tbody>
+  <ng-container *ngFor="let row of value;">
+    <tr>
+      <ng-container *ngFor="let column of columns; let columnIndex = index;">
+        <td
+          *ngIf="shouldRenderCell(row.rowId, columnIndex)"
+          [attr.rowspan]="calcRowSpan(row.rowId, columnIndex)"
+          [attr.colspan]="calcColSpan(row.rowId, columnIndex)"
+          (click)="onCellClick({
+                  row: row,
+                  column: column,
+                  rowIndex: row.rowId,
+                  columnIndex: columnIndex
+                })"
+          [ngClass]="[
+                  column.onClick ? 'cursor-pointer': '',
+                  column.cellClass ? column.cellClass({row: row, col: column.field, rowIndex: row.rowId, columnIndex: columnIndex}) : ''
+                ]"
+        >
+          <div
+            class="cell"
+            *ngIf="!column.slots; else slotsBlock"
+            [ngStyle]="column.cellStyle ? column.cellStyle({row: row, col: column.field, rowIndex: row.rowId, columnIndex: columnIndex}) : {}"
+          >
+            {{ column.formatValue ? (column.formatValue({row: row, col: column.field, rowIndex: row.rowId,
+            columnIndex: columnIndex}) ): row[column.field]}}
+          </div>
+
+          <ng-template #slotsBlock>
+            <div class="cell" *ngIf="cellSlots">
+              <ng-container
+                [ngTemplateOutlet]="cellSlots.templateRef"
+                [ngTemplateOutletContext]="{
+                        row: row,
+                        column: column.field,
+                        rowIndex: row.rowId,
+                        columnIndex: columnIndex
+                      }"
+              ></ng-container>
+            </div>
+          </ng-template>
+        </td>
+      </ng-container>
+    </tr>
+
+    <tr *ngIf="shouldRenderExpandRow(row.rowId)">
+      <td [attr.colspan]="columns.length" *ngIf="expandSlots">
+        <ng-container
+          [ngTemplateOutlet]="expandSlots.templateRef"
+          [ngTemplateOutletContext]="{
+                  row: row,
+                  rowIndex: row.rowId
+                }"
+        ></ng-container>
+      </td>
+    </tr>
+  </ng-container>
+  </tbody>
+</table>
