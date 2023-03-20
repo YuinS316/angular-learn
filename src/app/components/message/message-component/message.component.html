@@ -1,5 +1,19 @@
-<div class="u-message-container">
-  <div>
-    {{instance.content}}
+<div
+  class="u-message-notice"
+  [@moveUpMotion]="instance.state"
+  (@moveUpMotion.done)="animationStateChanged.next($event)"
+  (mouseenter)="onEnter()"
+  (mouseleave)="onLeave()"
+>
+  <div class="u-message-notice-content" [ngClass]="'u-message' + instance.type">
+    <ng-container [ngSwitch]="instance.type">
+      <span *ngSwitchCase="'success'">success</span>
+      <span *ngSwitchCase="'info'">info</span>
+      <span *ngSwitchCase="'warning'">warning</span>
+      <span *ngSwitchCase="'error'">error</span>
+      <span *ngSwitchCase="'loading'">loading</span>
+    </ng-container>
+
+    <span [innerHTML]="instance.content"></span>
   </div>
 </div>
