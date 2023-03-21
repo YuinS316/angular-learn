@@ -1,1 +1,11 @@
-<p>notification-container works!</p>
+<div
+  class="u-notification u-notification-bottomRight"
+  [style.right]="'0px'"
+  [style.bottom]="'24px'"
+>
+  <u-notification
+    *ngFor="let instance of instances"
+    [instance]="instance"
+    (destroyed)="remove($event.id, $event.userAction)"
+  ></u-notification>
+</div>

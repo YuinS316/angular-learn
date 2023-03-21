@@ -73,7 +73,7 @@ export abstract class UComponent implements OnInit, OnDestroy {
   /**
    * 销毁实例
    */
-  destroy() {
+  destroy(userAction = false) {
     this.instance.state = 'leave';
     this.cdr.detectChanges();
     this.closeTimer = window.setTimeout(() => {
@@ -81,7 +81,7 @@ export abstract class UComponent implements OnInit, OnDestroy {
       //  通知container移除自己
       this.destroyed.next({
         id: this.instance.messageId,
-        userAction: false,
+        userAction,
       });
     }, 200);
   }

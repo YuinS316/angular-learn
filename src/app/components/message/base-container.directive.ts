@@ -40,6 +40,11 @@ export abstract class UContainerComponent implements OnInit, OnDestroy {
   create(data: MessageData) {
     const instance = this.beforeCreateInstance(data);
 
+    //  超过最大容量，就移除掉第一个
+    if (this.instances.length >= this.config.maxStack) {
+      this.instances = this.instances.slice(1);
+    }
+
     this.instances = [...this.instances, instance];
 
     this.readyInstances();

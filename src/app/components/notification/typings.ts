@@ -36,4 +36,6 @@ export interface NoticationOptions<T = {}> {
   customStyle?: Record<string, any>;
   //  自定义类名
   customClass?: string;
+  //  自定义key
+  key?: string;
 }

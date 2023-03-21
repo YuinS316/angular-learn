@@ -1,1 +1,59 @@
-<p>notification-component works!</p>
+<div
+  class="u-notification-notice u-notification-closable"
+  [ngStyle]="instance.options.customStyle || {}"
+  [ngClass]="instance.options.customClass || ''"
+  [@notificationMotion]="instance.state"
+  (@notificationMotion.done)="animationStateChanged.next($event)"
+  (mouseenter)="onEnter()"
+  (mouseleave)="onLeave()"
+>
+  <div *ngIf="!instance.template" class="u-notification-notice-content">
+    <div
+      class="u-notication-notice-content"
+      [ngClass]="{
+        'u-notification-notice-with-icon': instance.type !== 'blank'
+      }"
+    >
+      <div [class.u-notification-notice-with-icon]="instance.type !== 'blank'">
+        <ng-container [ngSwitch]="instance.type">
+          <span
+            *ngSwitchCase="'success'"
+            class="u-notification-notice-icon u-notification-notice-icon-success"
+          ></span>
+          <span
+            *ngSwitchCase="'info'"
+            class="u-notification-notice-icon u-notification-notice-icon-info"
+          ></span>
+          <span
+            *ngSwitchCase="'warning'"
+            class="u-notification-notice-icon u-notification-notice-icon-warning"
+          ></span>
+          <span
+            *ngSwitchCase="'error'"
+            class="u-notification-notice-icon u-notification-notice-icon-error"
+          ></span>
+        </ng-container>
+        <div
+          class="u-notification-notice-message"
+          [innerHTML]="instance.title"
+        ></div>
+        <div
+          class="u-notification-notice-description"
+          [innerHTML]="instance.content"
+        ></div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template
+    *ngIf="instance.template"
+    [ngTemplateOutlet]="instance.template"
+    [ngTemplateOutletContext]="{ $implicit: this, data: instance.options.data }"
+  ></ng-template>
+
+  <a tabindex="0" class="u-notification-notice-close" (click)="close()">
+    <span class="u-notification-notice-close-x">
+      <span class="u-notification-close-icon"></span>
+    </span>
+  </a>
+</div>

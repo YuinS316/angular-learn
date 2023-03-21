@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MessageService } from '@components/message/message.service';
+import { NotificationService } from '@components/notification/notification.service';
 import { concatMap } from 'rxjs';
 
 @Component({
@@ -8,7 +9,12 @@ import { concatMap } from 'rxjs';
   styleUrls: ['./message-page.component.sass'],
 })
 export class MessagePageComponent implements OnInit {
-  constructor(public messageService: MessageService) {}
+  @ViewChild('notiTpl') notiTpl: any;
+
+  constructor(
+    public messageService: MessageService,
+    public notificationService: NotificationService
+  ) {}
 
   ngOnInit(): void {}
 
@@ -22,6 +28,15 @@ export class MessagePageComponent implements OnInit {
       .subscribe(() => {
         console.log('done');
       });
+  }
+
+  handleNotification() {
+    // this.notificationService.blank('test header', 'test content', {
+    //   duration: 9999999,
+    // });
+    this.notificationService.template(this.notiTpl, {
+      data: { color: 'test red' },
+    });
   }
 }
 

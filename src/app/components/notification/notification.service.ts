@@ -1,10 +1,13 @@
 import { Overlay } from '@angular/cdk/overlay';
-import { Injectable, Injector } from '@angular/core';
+import { Injectable, Injector, TemplateRef } from '@angular/core';
 import { UMessageBaseService } from '../message/base-service';
-import { MessageContainerComponent } from '../message/message-container/message-container.component';
-import { MessageOptions, MessageType, MessageData } from '../message/typings';
 import { SingletonService } from '../shared/singleton.service';
-import { NotificationData } from './typings';
+import { NotificationContainerComponent } from './notification-container/notification-container.component';
+import {
+  NotificationData,
+  NoticationOptions,
+  NotificationType,
+} from './typings';
 @Injectable({
   providedIn: 'root',
 })
@@ -19,7 +22,7 @@ export class NotificationService extends UMessageBaseService {
     super(singletonService, overlay, injector);
   }
 
-  success(title: string, content: string, options?: MessageOptions) {
+  success(title: string, content: string, options?: NoticationOptions) {
     return this.createInstance(
       {
         type: 'success',
@@ -30,7 +33,7 @@ export class NotificationService extends UMessageBaseService {
     );
   }
 
-  error(title: string, content: string, options?: MessageOptions) {
+  error(title: string, content: string, options?: NoticationOptions) {
     return this.createInstance(
       {
         type: 'error',
@@ -41,7 +44,7 @@ export class NotificationService extends UMessageBaseService {
     );
   }
 
-  info(title: string, content: string, options?: MessageOptions) {
+  info(title: string, content: string, options?: NoticationOptions) {
     return this.createInstance(
       {
         type: 'info',
@@ -52,7 +55,7 @@ export class NotificationService extends UMessageBaseService {
     );
   }
 
-  warning(title: string, content: string, options?: MessageOptions) {
+  warning(title: string, content: string, options?: NoticationOptions) {
     return this.createInstance(
       {
         type: 'warning',
@@ -63,7 +66,7 @@ export class NotificationService extends UMessageBaseService {
     );
   }
 
-  blank(title: string, content: string, options?: MessageOptions) {
+  blank(title: string, content: string, options?: NoticationOptions) {
     return this.createInstance(
       {
         type: 'blank',
@@ -74,11 +77,15 @@ export class NotificationService extends UMessageBaseService {
     );
   }
 
+  template(template: TemplateRef<{}>, options?: NoticationOptions) {
+    return this.createInstance({ template }, options);
+  }
+
   create(
-    type: MessageType | string,
+    type: NotificationType | string,
     title: string,
     content: string,
-    options?: MessageOptions
+    options?: NoticationOptions
   ) {
     return this.createInstance({ type, title, content }, options);
   }
@@ -87,8 +94,11 @@ export class NotificationService extends UMessageBaseService {
    * 创建实例
    * @private
    */
-  private createInstance(message: NotificationData, options?: MessageOptions) {
-    this.container = this.withContainer(MessageContainerComponent);
+  private createInstance(
+    message: NotificationData,
+    options?: NoticationOptions
+  ) {
+    this.container = this.withContainer(NotificationContainerComponent);
 
     return this.container.create({
       ...message,
