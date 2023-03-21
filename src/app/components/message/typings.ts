@@ -1,3 +1,5 @@
+import type { Subject } from 'rxjs';
+
 export type MessageType = 'success' | 'info' | 'warning' | 'error' | 'loading';
 
 export interface MessageData {
@@ -6,7 +8,7 @@ export interface MessageData {
   messageId?: string;
   //  创建时间
   createdAt?: Date;
-  onClose?: Function;
+  onClose?: Subject<boolean>;
   //  动画状态
   state?: 'enter' | 'leave';
   options?: MessageOptions;

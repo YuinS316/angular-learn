@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MessageService } from '@components/message/message.service';
+import { concatMap } from 'rxjs';
 
 @Component({
   selector: 'app-message-page',
@@ -12,7 +13,15 @@ export class MessagePageComponent implements OnInit {
   ngOnInit(): void {}
 
   handleSuccess() {
-    this.messageService.success('test');
+    this.messageService
+      .success(' test success', { duration: 100 })
+      .onClose.pipe(
+        concatMap(() => this.messageService.info(' test info').onClose),
+        concatMap(() => this.messageService.info(' test info').onClose)
+      )
+      .subscribe(() => {
+        console.log('done');
+      });
   }
 }
 

@@ -8,23 +8,21 @@ import { TodoListComponent } from '@components/todo-list/todo-list.component';
 import { TodoListItemComponent } from '@components/todo-list/todo-list-item/todo-list-item.component';
 
 import { StorageService } from '@services/storage.service';
-import {TableModule} from "@components/table/table.module";
-import {ImageModule} from "@components/image/image.module";
-import {MessageModule} from "@components/message/message.module";
+import { TableModule } from '@components/table/table.module';
+import { ImageModule } from '@components/image/image.module';
+import { MessageModule } from '@components/message/message.module';
+import { NotificationModule } from '@components/notification/notification.module';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    TodoListComponent,
-    TodoListItemComponent,
-  ],
+  declarations: [AppComponent, TodoListComponent, TodoListItemComponent],
   imports: [
     BrowserModule,
     FormsModule,
     AppRoutingModule,
     TableModule,
     ImageModule,
-    MessageModule
+    MessageModule,
+    NotificationModule,
   ],
   providers: [StorageService],
   bootstrap: [AppComponent],

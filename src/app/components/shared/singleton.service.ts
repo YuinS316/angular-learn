@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SingletonService {
-
   private targetMap = new Map<string, any>();
 
-  constructor() { }
+  constructor() {}
 
   registerByKey(key: string, target: any) {
     const isRegistered = this.targetMap.has(key);

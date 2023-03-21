@@ -1,24 +1,15 @@
-import {
-  Injectable,
-  ChangeDetectorRef,
-  Directive,
-  EventEmitter,
-  Injector,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
-import { ComponentType, Overlay } from '@angular/cdk/overlay';
-import { ComponentPortal } from '@angular/cdk/portal';
-import { SingletonService } from '@components/shared/singleton.service';
-import { MessageContainerComponent } from '@components/message/message-container/message-container.component';
-import type { MessageType, MessageData, MessageOptions } from './typings';
-import { UMessageBaseService } from './base-service';
-
+import { Overlay } from '@angular/cdk/overlay';
+import { Injectable, Injector } from '@angular/core';
+import { UMessageBaseService } from '../message/base-service';
+import { MessageContainerComponent } from '../message/message-container/message-container.component';
+import { MessageOptions, MessageType, MessageData } from '../message/typings';
+import { SingletonService } from '../shared/singleton.service';
+import { NotificationData } from './typings';
 @Injectable({
   providedIn: 'root',
 })
-export class MessageService extends UMessageBaseService {
-  protected keyInSingleton = 'u-message';
+export class NotificationService extends UMessageBaseService {
+  protected keyInSingleton = 'u-notification';
 
   constructor(
     protected override singletonService: SingletonService,
@@ -28,50 +19,55 @@ export class MessageService extends UMessageBaseService {
     super(singletonService, overlay, injector);
   }
 
-  success(content: string, options?: MessageOptions) {
+  success(title: string, content: string, options?: MessageOptions) {
     return this.createInstance(
       {
         type: 'success',
+        title,
         content,
       },
       options
     );
   }
 
-  error(content: string, options?: MessageOptions) {
+  error(title: string, content: string, options?: MessageOptions) {
     return this.createInstance(
       {
         type: 'error',
+        title,
         content,
       },
       options
     );
   }
 
-  info(content: string, options?: MessageOptions) {
+  info(title: string, content: string, options?: MessageOptions) {
     return this.createInstance(
       {
         type: 'info',
+        title,
         content,
       },
       options
     );
   }
 
-  warning(content: string, options?: MessageOptions) {
+  warning(title: string, content: string, options?: MessageOptions) {
     return this.createInstance(
       {
         type: 'warning',
+        title,
         content,
       },
       options
     );
   }
 
-  loading(content: string, options?: MessageOptions) {
+  blank(title: string, content: string, options?: MessageOptions) {
     return this.createInstance(
       {
-        type: 'loading',
+        type: 'blank',
+        title,
         content,
       },
       options
@@ -80,17 +76,18 @@ export class MessageService extends UMessageBaseService {
 
   create(
     type: MessageType | string,
+    title: string,
     content: string,
     options?: MessageOptions
   ) {
-    return this.createInstance({ type, content }, options);
+    return this.createInstance({ type, title, content }, options);
   }
 
   /**
    * 创建实例
    * @private
    */
-  private createInstance(message: MessageData, options?: MessageOptions) {
+  private createInstance(message: NotificationData, options?: MessageOptions) {
     this.container = this.withContainer(MessageContainerComponent);
 
     return this.container.create({

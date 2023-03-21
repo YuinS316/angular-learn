@@ -12,7 +12,7 @@ export class StorageService {
   getRxjsData() {
     return new Observable<number>((observer) => {
       let count = 0;
-      this.timer = setInterval(() => {
+      this.timer = window.setInterval(() => {
         observer.next(++count);
       }, 1000);
 
